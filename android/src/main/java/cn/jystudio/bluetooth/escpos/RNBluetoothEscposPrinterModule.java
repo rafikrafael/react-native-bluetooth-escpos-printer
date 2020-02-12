@@ -311,6 +311,20 @@ public class RNBluetoothEscposPrinterModule extends ReactContextBaseJavaModule
     }
 
     @ReactMethod
+    public void beep(int m, int t, final Promise promise) {
+        try {
+            byte[] bytes = PrinterCommand.POS_Set_Beep(m, t);
+            if (sendDataByte(bytes)) {
+                promise.resolve(null);
+            } else {
+                promise.reject("COMMAND_NOT_SEND");
+            }
+        }catch (Exception e){
+            promise.reject(e.getMessage(),e);
+        }
+    }
+
+    @ReactMethod
     public void setWidth(int width) {
         deviceWidth = width;
     }
